@@ -15,25 +15,26 @@ module.exports = function(grunt) {
       wait: function () {},
       fail: function () {},
       timeout: 10 * 1000,
-      force: false
+      isforce: false
     });
     var done = this.async();
     var flag = {
-      done: false
+      trigger: false
     };
     var doneTrigger = function () {
-      if (!flag.done) {
-        flag.done = true;
+      if (!flag.trigger) {
+        flag.trigger = true;
         done();
       }
     };
     grunt.log.writeln('waiting for an async task');
     options.wait(doneTrigger);
     setTimeout(function () {
-      if (!flag.done) {
+      if (!flag.trigger) {
+        flag.trigger = true;
         grunt.log.warn('timeout.');
         options.fail();
-        done(options.force);
+        done(options.isforce);
       }
     }, options.timeout);
   });
