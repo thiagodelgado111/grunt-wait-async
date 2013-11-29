@@ -10,41 +10,32 @@
 
 module.exports = function(grunt) {
 
-  // Please see the Grunt documentation for more information regarding task
-  // creation: http://gruntjs.com/creating-tasks
-
-  grunt.registerMultiTask('wait_async', 'The best Grunt plugin ever.', function() {
-    // Merge task-specific and/or target-specific options with these defaults.
+  grunt.registerMultiTask('wait_async', 'wait for an async task', function() {
     var options = this.options({
-      punctuation: '.',
-      separator: ', '
+      wait: function () {},
+      fail: function () {},
+      timeout: 10 * 1000,
+      force: false
     });
-
-    // Iterate over all specified file groups.
-    this.files.forEach(function(f) {
-      // Concat specified files.
-      var src = f.src.filter(function(filepath) {
-        // Warn on and remove invalid source files (if nonull was set).
-        if (!grunt.file.exists(filepath)) {
-          grunt.log.warn('Source file "' + filepath + '" not found.');
-          return false;
-        } else {
-          return true;
-        }
-      }).map(function(filepath) {
-        // Read file source.
-        return grunt.file.read(filepath);
-      }).join(grunt.util.normalizelf(options.separator));
-
-      // Handle options.
-      src += options.punctuation;
-
-      // Write the destination file.
-      grunt.file.write(f.dest, src);
-
-      // Print a success message.
-      grunt.log.writeln('File "' + f.dest + '" created.');
-    });
+    var done = this.async();
+    var flag = {
+      done: false
+    };
+    var doneTrigger = function () {
+      if (!flag.done) {
+        flag.done = true;
+        done();
+      }
+    };
+    grunt.log.writeln('waiting for an async task');
+    options.wait(doneTrigger);
+    setTimeout(function () {
+      if (!flag.done) {
+        grunt.log.warn('timeout.');
+        options.fail();
+        done(options.force);
+      }
+    }, options.timeout);
   });
 
 };
