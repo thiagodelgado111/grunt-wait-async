@@ -1,6 +1,6 @@
 {
   "name": "grunt-wait-async",
-  "description": "The best Grunt plugin ever.",
+  "description": "makes grunt wait for an async task",
   "version": "0.1.0",
   "homepage": "https://github.com/imyelo/grunt-wait-async",
   "author": {
