@@ -1,7 +1,7 @@
 {
   "name": "grunt-wait-async",
   "description": "makes grunt wait for an async task",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/imyelo/grunt-wait-async",
   "author": {
     "name": "yelo",

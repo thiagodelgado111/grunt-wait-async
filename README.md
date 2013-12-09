@@ -80,19 +80,27 @@ even if the `done` signal in `options.wait` never came.
 In this example, the `wait_async` task will wait for the server start with the least options.  
 
 ```js
+var request = require('request');
 grunt.initConfig({
   wait_async: {
     server: {
       options: {
         wait: function (done) {
-          setTimeout(function () {
-            request('http://localhost:8080', function () {
-              done();
+          var doRequest = function () {
+            console.log('waiting for the server ...');
+            request(config.siteUrl, function (err, resp, body) {
+              if (!err) {
+                console.log('server is ready.');
+                done();
+              } else {
+                doRequest();
+              }
             });
-          }, 1000);
+          };
+          doRequest();
         }
       }
-    }
+    },
   },
 });
 ```
@@ -100,17 +108,25 @@ grunt.initConfig({
 #### Custom Options  
 
 ```js
+var request = require('request');
 grunt.initConfig({
   wait_async: {
     server: {
       options: {
         wait: function (done) {
-          setTimeout(function () {
-            request('http://localhost:8080', function () {
-              done();
+          var doRequest = function () {
+            console.log('waiting for the server ...');
+            request(config.siteUrl, function (err, resp, body) {
+              if (!err) {
+                console.log('server is ready.');
+                done();
+              } else {
+                doRequest();
+              }
             });
-          }, 1000);
-        },
+          };
+          doRequest();
+        }
         fail: function () {
           console.error('the server had not start'); 
         },
