@@ -2,6 +2,9 @@
 
 > makes grunt wait for an async task
 
+[![NPM version](https://badge.fury.io/js/grunt-wait-async.png)](http://badge.fury.io/js/grunt-wait-async)
+[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+
 ## Getting Started
 This plugin requires Grunt `~0.4.2`
 
